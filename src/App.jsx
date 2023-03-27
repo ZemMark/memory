@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState, useRef } from "react";
+import { NumberList } from "./components/NumberList";
+import { Form } from "./components/Form";
 
-function App() {
-  const [count, setCount] = useState(0)
+export function App() {
+  const [numbers, setNumbers] = useState([]);
+  const [shown, setShown] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(3);
+  const [launched, setLaunched] = useState(false);
+  const timer = useRef(null);
+  function generateRandomNumbers() {
+    setTimeRemaining(3);
+    if (launched) return;
+    setLaunched(true);
+
+    const newNumbers = [];
+    for (let i = 0; i < 6; i++) {
+      const randNum = Math.floor(Math.random() * 9) + 1;
+      newNumbers.push(randNum);
+    }
+    setShown(true);
+    setNumbers(newNumbers);
+    setTimeout(() => {
+      setShown(false);
+      console.log("fires");
+
+    }, 3000);
+    timer.current = setInterval(() => {
+      setTimeRemaining((prevTime) => prevTime - 1);
+    }, 1000);
+  }
+
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      console.log(timeRemaining);
+      clearInterval(timer.current);
+      setLaunched(false);
+    }
+  });
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      {launched && <div>{timeRemaining}</div>}
+      <button onClick={generateRandomNumbers}>generate</button>
+
+      {shown && <NumberList array={numbers}></NumberList>}
+      {!launched && <Form numbers={numbers}></Form>}
+      
     </div>
-  )
+    
+  );
 }
 
-export default App
+export default App;
