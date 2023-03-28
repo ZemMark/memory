@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 
-export function Form({ numbers }) {
+export function Form({ numbers, shownForm }) {
   const [userInput, setUserInput] = useState("");
   const [done, setDone] = useState(false);
 
@@ -34,12 +34,14 @@ export function Form({ numbers }) {
     );
   }
   return (
-    <form action="" onSubmit={onSubmit}>
+    shownForm && (<form action="" onSubmit={onSubmit}>
+
       <input
         type="text"
         onChange={(e) => setUserInput(e.target.value)}
-        value={userInput}
+        value={userInput}placeholder="Напишіть те що запам'ятали"
       />
+      
       <button type="submit">apply</button>
       {done && (
         <div>
@@ -47,6 +49,6 @@ export function Form({ numbers }) {
           <p>Your answer: {userInput}</p>
         </div>
       )}
-    </form>
+    </form>)
   );
 }

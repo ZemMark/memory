@@ -7,8 +7,10 @@ export function App() {
   const [shown, setShown] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(3);
   const [launched, setLaunched] = useState(false);
+  const [shownForm, setShownForm]= useState(false)
   const timer = useRef(null);
   function generateRandomNumbers() {
+    setShownForm(false)
     setTimeRemaining(3);
     if (launched) return;
     setLaunched(true);
@@ -23,6 +25,7 @@ export function App() {
     setTimeout(() => {
       setShown(false);
       console.log("fires");
+      setShownForm(true)
 
     }, 3000);
     timer.current = setInterval(() => {
@@ -44,7 +47,7 @@ export function App() {
       <button onClick={generateRandomNumbers}>generate</button>
 
       {shown && <NumberList array={numbers}></NumberList>}
-      {!launched && <Form numbers={numbers}></Form>}
+      {!launched && <Form numbers={numbers} shownForm={shownForm}></Form>}
       
     </div>
     
