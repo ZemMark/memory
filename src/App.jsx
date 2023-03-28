@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { NumberList } from "./components/NumberList";
 import { Form } from "./components/Form";
+import { GenerateNums, CountDown } from "./components/ButtonGenerate.styled";
+
 
 export function App() {
   const [numbers, setNumbers] = useState([]);
@@ -43,10 +45,13 @@ export function App() {
 
   return (
     <div>
-      {launched && <div>{timeRemaining}</div>}
-      <button onClick={generateRandomNumbers}>generate</button>
-
+      <div className="">
+      {launched && <CountDown>{timeRemaining}</CountDown>}
       {shown && <NumberList array={numbers}></NumberList>}
+
+      </div>
+      <GenerateNums onClick={generateRandomNumbers}>generate</GenerateNums>
+
       {!launched && <Form numbers={numbers} shownForm={shownForm}></Form>}
       
     </div>

@@ -37,7 +37,7 @@ export function Form({ numbers, shownForm }) {
     shownForm && (<form action="" onSubmit={onSubmit}>
 
       <input
-        type="text"
+        type="tel"
         onChange={(e) => setUserInput(e.target.value)}
         value={userInput}placeholder="Напишіть те що запам'ятали"
       />
